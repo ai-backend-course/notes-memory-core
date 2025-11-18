@@ -21,7 +21,7 @@ RUN go build -o app .
 # ============================
 # RUNTIME STAGE
 # ============================
-FROM alpine:latest
+FROM alpine:3.19
 
 # Install SSL certs (required for HTTPS)
 RUN apk add --no-cache ca-certificates
@@ -36,6 +36,9 @@ EXPOSE 8080
 
 # Recommended Fiber setting
 ENV FIBER_PREFORK=false
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:8080/health || exit 1
 
 # Run application
 CMD ["./app"]
