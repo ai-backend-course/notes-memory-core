@@ -61,6 +61,26 @@ The API will be available at:
 
 ---
 
+## Architecture Overview
+
+This service provides CRUD operations for notes and stores them in Postgres. It includes logging, metrics, and clean handler separation using Fiber.
+
+```mermaid
+flowchart TD
+
+    A[Client] --> B[HTTP API - Fiber]
+
+    B --> C[Handlers]
+    C --> D[Database Layer]
+    D --> E[(Postgres)]
+
+    B --> F[Middleware]
+    F -->|Logging| B
+    F -->|Metrics| B
+```
+
+---
+
 ## API Endpoints
 
 ### Health Check
@@ -134,6 +154,7 @@ The next step in this series is the RAG-focused repository:
 notes-memory-core-rag
 
 ---
+
 
 ## License
 
